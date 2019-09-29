@@ -32,9 +32,9 @@
 
 # USENLOS POR TODAS LAS WAIFUS!!!! Creamente que lamentarán no hacerlo
 
-# PRO TIP: usar ctrl+c para comentar y descomentar de una
+# PRO TIP: usar ctrl+shift+c para comentar y descomentar de una
 
-# coméntamente descoméntame si te atreves!!! 
+# coméntamente descoméntame si te atreves!!!
 
 # TEXTO O CARÁCTERES
 "esto es un texto, y uso comillas para identificarme"
@@ -48,18 +48,20 @@
 100
 1000
 999
+.5
 
 # COSAS (objetos, comandos, palabras reservadas)
 TRUE & FALSE 
 T & F # pueden resumirse como T y F
-# +, -, /, *, ^(**), ~, (), [], {}, :, ==,  &&, ||, &, |, 
+
+# +, -, /, *, ^(**), ~, (), [], {}, :, ==,  &&, ||, &, |,
 # NA, NaN, inf (-inf), $
+
 hola  # ojo cuando corro esto, dice "objeto" no existe
 sum()
 # %>% %in% <- lo comento porque me da problemas
 # " <-  " vs " = "  # esto se conoce como asignación (lawful good vs caothic evil) 
 # funciona al revés también " 1 -> a "
-
 
 # TERMINOS RESERVADOS
 # for
@@ -69,7 +71,6 @@ sum()
 # else
 # break
 # for <- "hola"   # descomentar y correr
-
 
 
 # ================= 4. PAQUETES ===============================
@@ -98,6 +99,7 @@ require(nombre_libreria) # ambos hacen lo mismo pero convencionalmente
 2 * 2
 4 / 2
 2 ^ 2
+2 ** 2
 
 # LOGICA
 T & T
@@ -128,12 +130,13 @@ a <- T
 b <- F
 
 a * b # mucho ojo con esto, valor binario!
-a * a
+a + a
 -a
 
 a&(a|b)
 
 # ITERACIONES
+
 for (i in 1:5) {
   print(i)   # indentación, hace código legible
 }
@@ -236,15 +239,14 @@ desde_hasta2 <- function(desde, hasta){
   }
 }
 
-
+desde_hasta2(3, 13)
 
 
 # ================= 6. OBJETOS DE R ==============================
 
 # VECTORES
-
 a <- c(1, 4, 5)
-b <- c(2, "a", a)
+b <- c(2, "a", "a", a)
 
 b[2]
 
@@ -253,6 +255,8 @@ a ** a
 
 b[b == "a"]
 which(b == "a")
+
+b[which(b == "a")]
 
 a <- c(T, T, F, F)
 b <- c(T, F, T, F)
@@ -267,11 +271,12 @@ matriz1 <- matrix(1:5, ncol = 5, nrow = 4)
 
 matriz1 * matriz1
 (matriz1 * matriz1)[2,3]
+
 mat1 <- matriz1 * matriz1
 
 a <- letters
 
-matrix(a, ncol = 2)
+matrix(a, ncol = 13)
 
 # DATA FRAMES
 a <- letters
@@ -279,7 +284,7 @@ b <- letters[26:1]
 
 data.frame(a, b, a, b)
 df1 <- data.frame(a, b, a, b)
-View(df)
+View(df1)
 
 df1[2,3]
 
