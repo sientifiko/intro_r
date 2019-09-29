@@ -155,7 +155,7 @@ while (T) { # esto hace un loop infinito
 sum(1:5)
 1 + 2 + 3 + 4 + 5
 
-class("caracter")
+class("caracter") # ojo con los tipos de datos
 class(1)
 class(T)
 
@@ -318,16 +318,100 @@ regresion$coefficients
 
 # ================= 7. DATA FRAMES ================================
 
+library(tidyverse)
+
+# creo vectores para fusionarlos
+a <- rbinom(5, 1, .5)
+b <- rnorm(5, 10, 5)
+c <- c(T, T, F, F, T)
+d <- c(1:5)
+
+# creo df
+df.1 <- rbind(a, b, c, d) %>% as.data.frame()
+df.2 <- cbind(a, b, c, d) %>% as.data.frame()
+
+# reconvierto columna en lógico
+df.2$c <- as.logical(df.2$c)
+
 # exportar data
 write.table(df3, "df3.csv", sep = T, row.names = F, col.names = T)
 
 # importar data
 getwd()
+polityiv <- read.delim("polity iv.csv", sep = ";")
 
-polityiv 
+# verifico que Chile esté en el dataset
+"Chile" %in% polityiv$country
+
+# elijo solo los datos de Chile
+polityiv[polityiv$country=="Chile",]
+
+# verifico si México está en el dataset
+"Mexico" %in% polityiv$country
+
+# creo un dataset de Chile y México
+cl_mex <- polityiv[polityiv$country=="Chile" | 
+           polityiv$country=="Mexico",]
+
+# elijo las columnas que me interesan
+cl_mex2 <- cl_mex[,c(1, 2, 4, 5, 7)]
+
+# saco datos desde 1950 en adelante
+cl_mex3 <- cl_mex2[cl_mex2$year > 1950,]
+
+# veo nombre de columnas
+colnames(cl_mex3)
+
+# cambio nombre de columnas
+colnames(cl_mex3)[c(1,5)] <- c("ctry", "polity")
+
+# GRAFICANDO DESDE DF
+library(ggplot2)
+ggplot(cl_mex3, aes(year, polity, color=ctry)) + 
+  geom_line() + 
+  scale_x_continuous(breaks = seq(1950, 2018, 2)) +
+  scale_y_continuous(breaks = seq(-10, 10, 1)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  geom_hline(yintercept = 0) +
+  labs(x="", y="índice polity", color="país")
 
 
+# aislando Méx y Chile con tidyverse
+chile <- cl_mex3 %>% filter(ctry=="Chile")
+mexico <- cl_mex3 %>% filter(ctry=="Mexico")
 
+# volviendo a juntarlos (si es absurdo, es solo un ejemplo de rbind y cbind)
+cl_mex <- rbind(chile, mexico)
+cl_mex <- cbind(chile, mexico)
 
+# importar matriz de desarrollo y limpiar un poco
+desarrollo <- read.delim("desarrollo.csv", sep = ",")
+desarrollo <- desarrollo[1:118,c(1, 2, 45)]
+colnames(desarrollo) <- c("ctry", "year", "GDP")
+desarrollo$GDP <- as.numeric(paste0(desarrollo$GDP))
 
+# solo dataset de Chile
+chile_d <- desarrollo[desarrollo$ctry=="Chile",]
+
+# fusiono dfs
+chile2 <- merge(chile, chile_d, by = "year")
+
+# regresión con df 
+reg <- lm(polity ~ log(GDP) + year, data = chile2)
+
+# para outputs más bellakos
+library(stargazer)
+stargazer(reg, type = "text")
+
+# plot de GDP y polity
+ggplot(chile2, aes(year)) +
+  geom_line(aes(y= polity), linetype="dashed") +
+  geom_line(aes(y= log(GDP)/5, color="red")) +
+  scale_y_continuous(sec.axis = sec_axis(~.*5, name = "GDP en log")) +
+  theme_bw() + 
+  scale_x_continuous(breaks = seq(1950, 2018, 2)) +
+  theme(axis.text.x = element_text(angle = 90), legend.position = "none") +
+  geom_hline(yintercept = 0) +
+  labs(x="", y="índice polity")
 
