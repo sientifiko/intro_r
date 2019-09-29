@@ -321,9 +321,10 @@ regresion$coefficients
 # exportar data
 write.table(df3, "df3.csv", sep = T, row.names = F, col.names = T)
 
+# importar data
+getwd()
 
-
-
+polityiv 
 
 
 
