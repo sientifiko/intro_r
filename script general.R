@@ -49,7 +49,8 @@
 # COSAS (objetos, comandos, palabras reservadas)
 TRUE & FALSE 
 T & F # pueden resumirse como T y F
-# +, -, /, *, ^, ~, (), [], {}, :, ==,  &&, ||, &, |, NA, NaN, inf (-inf)
+# +, -, /, *, ^(**), ~, (), [], {}, :, ==,  &&, ||, &, |, 
+# NA, NaN, inf (-inf), $
 hola  # ojo cuando corro esto, dice "objeto" no existe
 sum()
 # %>% %in% <- lo comento porque me da problemas
@@ -180,8 +181,6 @@ animescience_best_pagina <- function(booleano){
 animescience_best_pagina(F)
 animescience_best_pagina(T)
 
-print(paste("asdasd", exp(5)))
-
 marx_best_waifu <- function(texto){
   if(texto == "si"){
     return("camarada")
@@ -215,22 +214,117 @@ set.seed(123)
 moneda2 <- rbinom(10, 1, .5)
 moneda2
 
-rm(moneda1, moneda2)
+# RECURSIONES
+desde_hasta <- function(desde, hasta){
+  while(desde <= hasta){
+    print(desde)
+    desde <- desde + 1
+  }
+}
+
+desde_hasta(1,15)
+
+desde_hasta2 <- function(desde, hasta){
+  if(desde == hasta){
+    return(desde)
+  } else{
+    print(desde)
+    desde_hasta2(desde + 1, hasta)
+  }
+}
+
+
 
 
 # ================= 6. OBJETOS DE R ==============================
 
-# vectores
-a <- c(T, T, T, F)
+# VECTORES
+
+a <- c(1, 4, 5)
+b <- c(2, "a", a)
+
+b[2]
+
+a + a
+a ** a 
+
+b[b == "a"]
+which(b == "a")
+
+a <- c(T, T, F, F)
 b <- c(T, F, T, F)
 
-a && b
 a & b
+a && b
+
+# MATRICES
+matrix(1:5, ncol = 5, nrow = 4)
+
+matriz1 <- matrix(1:5, ncol = 5, nrow = 4)
+
+matriz1 * matriz1
+(matriz1 * matriz1)[2,3]
+mat1 <- matriz1 * matriz1
+
+a <- letters
+
+matrix(a, ncol = 2)
+
+# DATA FRAMES
+a <- letters
+b <- letters[26:1]
+
+data.frame(a, b, a, b)
+df1 <- data.frame(a, b, a, b)
+View(df)
+
+df1[2,3]
+
+df1$a.1
+
+a <- c(T, T, F, F)
+b <- c(1:4)
+
+df2 <- data.frame(a, b)
 
 
+# LISTAS
+lista <- list()
 
+lista[[1]] <- df1
+lista[[2]] <- df2
+lista[[3]] <- "hola"
+
+lista[[2]][2]
+
+# ELEMENTO COMPLEJO
+a <- rnorm(100, 10, 5)
+b <- rbinom(100, 5, 1/5)
+
+length(a)
+length(b)
+
+cor.test(a, b)
+
+df3 <- data.frame(a, b)
+
+lm(a ~ b, data = df3)
+
+regresion <- lm(a ~ b, data = df3)
+
+summary(regresion)
+
+regresion$coefficients
 
 # ================= 7. DATA FRAMES ================================
+
+# exportar data
+write.table(df3, "df3.csv", sep = T, row.names = F, col.names = T)
+
+
+
+
+
 
 
 
