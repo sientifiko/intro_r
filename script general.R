@@ -288,13 +288,12 @@ View(df1)
 
 df1[2,3]
 
-df1$a.1
+df1$a.1[2]
 
 a <- c(T, T, F, F)
 b <- c(1:4)
 
 df2 <- data.frame(a, b)
-
 
 # LISTAS
 lista <- list()
@@ -304,6 +303,7 @@ lista[[2]] <- df2
 lista[[3]] <- "hola"
 
 lista[[2]][2]
+lista[[3]]
 
 # ELEMENTO COMPLEJO
 a <- rnorm(100, 10, 5)
@@ -312,7 +312,9 @@ b <- rbinom(100, 5, 1/5)
 length(a)
 length(b)
 
-cor.test(a, b)
+correlacion <- cor.test(a, b)
+
+correlacion$conf.int
 
 df3 <- data.frame(a, b)
 
@@ -322,7 +324,9 @@ regresion <- lm(a ~ b, data = df3)
 
 summary(regresion)
 
-regresion$coefficients
+regresion$effects
+  
+# PRO TIP: PARA INVOCAR AYUDA DE MÉTODO, USEN CTRL+ESPACIO
 
 # ================= 7. DATA FRAMES ================================
 
